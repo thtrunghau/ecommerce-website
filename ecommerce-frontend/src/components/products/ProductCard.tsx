@@ -10,6 +10,7 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [openProductViewModal, setOpenProductViewModal] =
     useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const btnLoader: boolean = false;
   const [selectedViewProduct, setSelectedViewProduct] =
     useState<Product | null>(null);
