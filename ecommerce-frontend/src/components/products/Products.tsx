@@ -3,29 +3,26 @@ import { ProductCard } from "./ProductCard";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "@/store/store";
-import { fetchProductsThunk } from "../../store/actions/productThunk";
+import { fetchProductsThunk } from "../../store/actions/ProductThunk";
 
 export const Products = () => {
-  console.log("Products component rendered");
-  const isLoading: boolean = false;
-  const errorMessage: string | null = null;
+  const { error, loading } = useSelector((state: RootState) => state.error);
   const dispatch: AppDispatch = useDispatch();
 
   const products = useSelector((state: RootState) => state.product.products);
   console.log("Products from store:", products);
+
   useEffect(() => {
-    dispatch(fetchProductsThunk()); // fetch trang 1 size 10 khi load component
+    dispatch(fetchProductsThunk());
   }, [dispatch]);
 
   return (
     <div className="px-4 py-14 sm:px-8 lg:px-14 2xl:mx-auto 2xl:w-[90%]">
-      {isLoading && <div className="text-center">Loading...</div>}
-      {errorMessage && (
+      {loading && <div className="text-center">Loading...</div>}
+      {error && (
         <div className="flex h-[200px] items-center justify-center">
           <FaExclamationTriangle className="mr-2 text-3xl text-slate-800" />
-          <span className="text-lg font-medium text-slate-800">
-            {errorMessage}
-          </span>
+          <span className="text-lg font-medium text-slate-800">{error}</span>
         </div>
       )}
 

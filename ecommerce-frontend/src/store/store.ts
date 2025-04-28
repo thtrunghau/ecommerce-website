@@ -1,10 +1,12 @@
 // store.ts
 import { configureStore } from "@reduxjs/toolkit";
-import productReducer from "./features/ProductSlice"; // nhớ đúng path của bạn nhé
+import productReducer from "./features/ProductSlice";
+import errorReducer from "./features/ErrorSlice";
 
 export const store = configureStore({
   reducer: {
     product: productReducer,
+    error: errorReducer,
   },
 });
 

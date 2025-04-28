@@ -1,8 +1,9 @@
 // productThunk.ts
-import { AppDispatch } from "@/store/store"; // tí nữa mình sẽ tạo store.ts
+import { AppDispatch } from "@/store/store"; 
 import { api } from "../../api/api";
 import { Product } from "@/types/product";
 import { fetchProducts, setPagination } from "../features/ProductSlice";
+import { setError, setLoading } from "../features/ErrorSlice";
 
 interface ProductResponse {
   content: Product[];
@@ -16,9 +17,11 @@ interface ProductResponse {
 export const fetchProductsThunk = () => {
   return async (dispatch: AppDispatch) => {
     try {
+      dispatch(setLoading(true));
+      dispatch(setError(null));
+
       const response = await api.get<ProductResponse>("/public/products");
 
-      console.log("API response:", response);
       dispatch(fetchProducts(response.data.content));
       dispatch(
         setPagination({
@@ -27,10 +30,14 @@ export const fetchProductsThunk = () => {
           totalPage: response.data.totalPage,
           totalElements: response.data.totalElements,
           lastPage: response.data.lastPage,
-        })
+        }),
       );
-    } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: string | any  ) {
+      dispatch(setError(error.response?.data?.message ||"Failed to fetch products."));
       console.error("Error fetching products:", error);
+    }finally{
+      dispatch(setLoading(false));
     }
   };
 };
