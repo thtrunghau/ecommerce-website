@@ -1,3 +1,4 @@
+import { Category } from "@/types/category";
 import {
   Button,
   FormControl,
@@ -11,15 +12,11 @@ import { useEffect, useState } from "react";
 import { FiArrowDown, FiArrowUp, FiRefreshCw, FiSearch } from "react-icons/fi";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
-export const Filter = () => {
-  const categories = [
-    { categoryId: 1, categoryName: "Electronics" },
-    { categoryId: 2, categoryName: "Books" },
-    { categoryId: 3, categoryName: "Clothing" },
-    { categoryId: 4, categoryName: "Home Appliances" },
-    { categoryId: 5, categoryName: "Toys" },
-  ];
+interface FilterProps {
+  categories: Category[];
+}
 
+export const Filter: React.FC<FilterProps> = ({ categories }) => {
   const [searchParams] = useSearchParams();
   const params = new URLSearchParams(searchParams);
   const pathname = useLocation().pathname;
@@ -31,7 +28,7 @@ export const Filter = () => {
 
   useEffect(() => {
     const currentCategory = searchParams.get("category") || "all";
-    const currentSortOrder = searchParams.get("sort") || "asc";
+    const currentSortOrder = searchParams.get("sortby") || "asc";
     const currentSearchTerm = searchParams.get("keyword") || "";
 
     setCategory(currentCategory);
@@ -51,12 +48,12 @@ export const Filter = () => {
   };
 
   const toggleSortOrder = () => {
-    setSortOrder((prev) => {
-      const newSortOrder = prev === "asc" ? "desc" : "asc";
-      params.set("sort", newSortOrder);
-      navigate(`${pathname}?${params.toString()}`);
-      return newSortOrder;
-    });
+    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
+
+    const newParams = new URLSearchParams(params);
+    newParams.set("sortby", newSortOrder);
+    navigate(`${pathname}?${newParams.toString()}`);
   };
 
   const handleClearFilter = () => {
@@ -79,7 +76,6 @@ export const Filter = () => {
 
   return (
     <div className="flex flex-col-reverse items-center justify-center gap-4 px-4 lg:flex-row lg:justify-between">
-      {/* Seacrch bar */}
       <div className="relative flex w-full items-center sm:w-[420px] 2xl:w-[450px]">
         <input
           value={searchTerm}
@@ -91,7 +87,6 @@ export const Filter = () => {
         <FiSearch size={20} className="absolute left-3 text-slate-800" />
       </div>
 
-      {/* Category Selection */}
       <div className="flex flex-col items-center gap-4 sm:flex-row">
         <FormControl
           variant="outlined"
@@ -115,8 +110,6 @@ export const Filter = () => {
           </Select>
         </FormControl>
 
-        {/* Sort button and clear filter */}
-        {/* Sort */}
         <Tooltip
           title={`Sort by Price: ${sortOrder === "asc" ? "Ascending" : "Descending"}`}
         >
@@ -135,7 +128,6 @@ export const Filter = () => {
           </Button>
         </Tooltip>
 
-        {/* Clear filter */}
         <button
           onClick={handleClearFilter}
           className="flex items-center gap-2 rounded-md bg-rose-700 px-3 py-2 text-white hover:bg-rose-800"

@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "@/types/product";
 import { Pagination } from "@/types/pagination";
 import { ProductState } from "@/types/productSate";
+import { Category } from "@/types/category";
 
 const initialState: ProductState = {
   products: null,
@@ -23,11 +24,18 @@ export const productSlice = createSlice({
     fetchProducts(state, action: PayloadAction<Product[]>) {
       state.products = action.payload;
     },
+    fetchCategories(state, action: PayloadAction<Category[]>) {
+      state.categories = action.payload;
+    },
     setPagination(state, action: PayloadAction<Pagination>) {
       state.pagination = action.payload;
+    },
+    resetProducts(state) {
+      state.products = null;
     },
   },
 });
 
-export const { fetchProducts, setPagination } = productSlice.actions;
+export const { fetchProducts, fetchCategories, setPagination, resetProducts } =
+  productSlice.actions;
 export default productSlice.reducer;
