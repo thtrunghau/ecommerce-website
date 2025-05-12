@@ -75,7 +75,7 @@ export const Filter: React.FC<FilterProps> = ({ categories }) => {
   }, [searchParams, searchTerm, navigate, pathname]);
 
   return (
-    <div className="flex flex-col-reverse items-center justify-center gap-4 px-4 lg:flex-row lg:justify-between">
+    <div className="flex flex-col-reverse items-center justify-center gap-4 lg:flex-row lg:justify-between">
       <div className="relative flex w-full items-center sm:w-[420px] 2xl:w-[450px]">
         <input
           value={searchTerm}

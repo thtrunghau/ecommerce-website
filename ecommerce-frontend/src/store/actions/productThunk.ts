@@ -90,7 +90,7 @@ export const fetchCategoriesThunk = () => {
       );
       console.error("Error fetching categories:", error);
     } finally {
-      dispatch(setLoading(true));
+      dispatch(setLoading(false));
     }
   };
 };
