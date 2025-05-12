@@ -2,6 +2,7 @@ import { Product } from "@/types/product";
 import { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { ProductViewModal } from "./ProductViewModal";
+import { truncateText } from "@/utils/truncateText";
 
 interface ProductCardProps {
   product: Product;
@@ -42,10 +43,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           }}
           className="mb-2 cursor-pointer text-lg font-semibold"
         >
-          {product.productName}
+          {truncateText(product.description, 45)}
         </h2>
         <div className="max-h-20 min-h-20 overflow-hidden">
-          <p className="text-sm text-gray-600">{product.description}</p>
+          <p className="text-sm text-gray-600">{truncateText(product.description, 90)}</p>
         </div>
 
         <div className="flex items-center justify-between">

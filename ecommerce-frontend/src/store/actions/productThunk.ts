@@ -1,15 +1,15 @@
 // productThunk.ts
 import { AppDispatch } from "@/store/store";
-import { api } from "../../api/api";
+import { api } from "@/api/api";
 import { Product } from "@/types/product";
 import {
   fetchProducts,
   fetchCategories,
   resetProducts,
   setPagination,
-} from "../features/ProductSlice";
-import { setError, setLoading } from "../features/ErrorSlice";
-import { Category } from './../../types/category';
+} from "@/store/features/ProductSlice";
+import { setError, setLoading } from "@/store/features/ErrorSlice";
+import { Category } from '@/types/category';
 
 interface ProductResponse {
   content: Product[];

@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
-import { ProductCard } from "./ProductCard";
+import { ProductCard } from "@/components/shared/ProductCard";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { RootState } from "@/store/store";
 import { Filter } from "./Filter";
-import { useProductFilter } from "../../hooks/useProductFIlter";
-import { Loader } from "./Loader";
-import { Paginations } from "./Paginations";
+import { useProductFilter } from "@/hooks/useProductFIlter";
+import { Loader } from "@/components//shared/Loader";
+import { Paginations } from "@/components//shared/Paginations";
 
 export const Products = () => {
   const { error, loading } = useSelector((state: RootState) => state.error);

@@ -1,5 +1,5 @@
 import { AppDispatch } from "@/store/store";
-import { fetchCategoriesThunk, fetchProductsThunk } from "../store/actions/ProductThunk";
+import { fetchCategoriesThunk, fetchProductsThunk } from "@/store/actions/ProductThunk";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
