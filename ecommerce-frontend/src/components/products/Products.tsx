@@ -3,7 +3,7 @@ import { ProductCard } from "@/components/shared/ProductCard";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { RootState } from "@/store/store";
 import { Filter } from "./Filter";
-import { useProductFilter } from "@/hooks/useProductFIlter";
+import { useProductFilter } from "@/hooks/useProductFilter";
 import { Loader } from "@/components//shared/Loader";
 import { Paginations } from "@/components//shared/Paginations";
 
