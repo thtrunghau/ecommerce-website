@@ -62,6 +62,39 @@ export const fetchProductsThunk = (queryString: string) => {
   };
 };
 
+export const fetchProductsWithoutQueryThunk = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch(setLoading(true));
+      dispatch(setError(null));
+      dispatch(resetProducts());
+
+      const response = await api.get<ProductResponse>(
+        `/public/products`,
+      );
+
+      dispatch(fetchProducts(response.data.content));
+      dispatch(
+        setPagination({
+          pageNumber: response.data.pageNumber,
+          pageSize: response.data.pageSize,
+          totalPage: response.data.totalPage,
+          totalElements: response.data.totalElements,
+          lastPage: response.data.lastPage,
+        }),
+      );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: string | any) {
+      dispatch(
+        setError(error.response?.data?.message || "Failed to fetch products."),
+      );
+      console.error("Error fetching products:", error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
 export const fetchCategoriesThunk = () => {
   return async (dispatch: AppDispatch) => {
     try {

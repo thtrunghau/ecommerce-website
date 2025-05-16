@@ -24,6 +24,9 @@ export const productSlice = createSlice({
     fetchProducts(state, action: PayloadAction<Product[]>) {
       state.products = action.payload;
     },
+    fetchProductsWithoutQuery(state, action: PayloadAction<Product[]>) {
+      state.products = action.payload;
+    },
     fetchCategories(state, action: PayloadAction<Category[]>) {
       state.categories = action.payload;
     },
