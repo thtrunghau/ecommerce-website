@@ -6,9 +6,13 @@ import { truncateText } from "@/utils/truncateText";
 
 interface ProductCardProps {
   product: Product;
+  isAbout?: boolean;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  isAbout,
+}) => {
   const [openProductViewModal, setOpenProductViewModal] =
     useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -19,8 +23,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     product.quantity && Number(product.quantity) > 0 ? true : false;
 
   const handleProductView = (product: Product) => {
-    setSelectedViewProduct(product);
-    setOpenProductViewModal(true);
+    if (!isAbout) {
+      setSelectedViewProduct(product);
+      setOpenProductViewModal(true);
+    }
   };
   return (
     <div className="overflow-hidden rounded-lg border shadow-xl transition-shadow duration-300">
@@ -46,37 +52,40 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {truncateText(product.description, 45)}
         </h2>
         <div className="max-h-20 min-h-20 overflow-hidden">
-          <p className="text-sm text-gray-600">{truncateText(product.description, 90)}</p>
+          <p className="text-sm text-gray-600">
+            {truncateText(product.description, 90)}
+          </p>
         </div>
-
-        <div className="flex items-center justify-between">
-          {product.specialPrice ? (
-            <div className="flex flex-col">
-              <span className="text-gray-700 line-through">
+        {!isAbout && (
+          <div className="flex items-center justify-between">
+            {product.specialPrice ? (
+              <div className="flex flex-col">
+                <span className="text-gray-700 line-through">
+                  {Number(product.price).toFixed(3)} VND
+                </span>
+                <span className="text-xl font-bold text-slate-700">
+                  {Number(product.specialPrice).toFixed(3)} VND
+                </span>
+              </div>
+            ) : (
+              <span className="text-xl font-bold text-slate-700">
+                {" "}
                 {Number(product.price).toFixed(3)} VND
               </span>
-              <span className="text-xl font-bold text-slate-700">
-                {Number(product.specialPrice).toFixed(3)} VND
-              </span>
-            </div>
-          ) : (
-            <span className="text-xl font-bold text-slate-700">
-              {" "}
-              {Number(product.price).toFixed(3)} VND
-            </span>
-          )}
+            )}
 
-          <button
-            disabled={!isAvailable}
-            onClick={() => {
-              handleProductView(product);
-            }}
-            className={`bg-blue-500 ${isAvailable ? "opacity-100 hover:bg-blue-600" : "opacity-70"} flex w-36 items-center justify-center rounded-lg px-3 py-2 text-white transition duration-300 ease-in-out`}
-          >
-            <FaShoppingCart className="mr-2" />
-            {isAvailable ? "Add to Cart" : "Out of Stock"}
-          </button>
-        </div>
+            <button
+              disabled={!isAvailable}
+              onClick={() => {
+                handleProductView(product);
+              }}
+              className={`bg-blue-500 ${isAvailable ? "opacity-100 hover:bg-blue-600" : "opacity-70"} flex w-36 items-center justify-center rounded-lg px-3 py-2 text-white transition duration-300 ease-in-out`}
+            >
+              <FaShoppingCart className="mr-2" />
+              {isAvailable ? "Add to Cart" : "Out of Stock"}
+            </button>
+          </div>
+        )}
       </div>
       <ProductViewModal
         open={openProductViewModal}
